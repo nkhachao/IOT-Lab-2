@@ -69,7 +69,7 @@ namespace TS1989
         protected override void OnConnectionFailed(string errorMessage)
         {
             ErrorController.ErrorMessage = errorMessage;
-            SceneManager.LoadScene("ConnectionError");
+            SceneManager.LoadScene(SceneNames.ConnectionError, LoadSceneMode.Additive);
             Debug.Log("CONNECTION FAILED! " + errorMessage);
         }
 
