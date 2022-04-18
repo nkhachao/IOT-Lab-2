@@ -82,6 +82,7 @@ namespace TS1989
         {
             base.OnConnected();
             Debug.Log("Connected to broker on " + brokerAddress + "\n");
+            SubscribeTopics();
             Navigation.LoadScene(SceneNames.Dashboard);
 
             if (autoTest)
@@ -108,7 +109,14 @@ namespace TS1989
 
         protected override void SubscribeTopics()
         {
-            client.Subscribe(new string[] { "M2MQTT_Unity/test" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            if (brokerAddress == "mqttserver.tk")
+            {
+                client.Subscribe(new string[] { "/bkiot/1852346/status" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            }
+            else
+            {
+                client.Subscribe(new string[] { "testTopic" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            }
         }
 
         protected override void UnsubscribeTopics()
