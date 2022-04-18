@@ -13,16 +13,14 @@ namespace TS1989
 {
     public class ConnectionController : M2MqttUnityClient
     {
-        [Tooltip("Set this to true to perform a testing cycle automatically on startup")]
-        public bool autoTest = false;
         [Header("User Interface")]
         public TMP_InputField addressInputField;
         public TMP_InputField usernameInputField;
         public TMP_InputField passwordInputField;
         public Button connectButton;
 
-        private List<string> eventMessages = new List<string>();
-        public static List<PublishTask> PublishTasks = new List<PublishTask>();
+        private List<Message> receivedMessages = new List<Message>();
+        public static List<Message> ToBePublished = new List<Message>();
 
         public void TestPublish()
         {
@@ -30,11 +28,11 @@ namespace TS1989
             Debug.Log("Test message published");
         }
 
-        public void Publish(PublishTask task)
+        public void Publish(Message message)
         {
-            client.Publish(task.topic, System.Text.Encoding.UTF8.GetBytes(task.message),
+            client.Publish(message.topic, System.Text.Encoding.UTF8.GetBytes(message.message),
                 MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-            Debug.Log("PUBLISHED: " + task.topic + ", " + task.message);
+            Debug.Log("PUBLISHED: " + message.topic + ", " + message.message);
         }
 
         public void UpdateBrokerAddress(string address)
@@ -74,11 +72,6 @@ namespace TS1989
             Debug.Log("Connected to broker on " + brokerAddress + "\n");
             SubscribeTopics();
             Navigation.LoadScene(SceneNames.Dashboard);
-
-            if (autoTest)
-            {
-                TestPublish();
-            }
         }
         
         protected override void OnConnectionFailed(string errorMessage)
@@ -116,6 +109,9 @@ namespace TS1989
 
         protected override void OnDisconnected()
         {
+            ErrorController.Title = "Disconnected";
+            ErrorController.ErrorMessage = "You have been disconnected from " + brokerAddress;
+            Navigation.LoadScene(SceneNames.Error);
             Debug.Log("Disconnected.");
         }
 
@@ -132,49 +128,35 @@ namespace TS1989
         protected override void DecodeMessage(string topic, byte[] message)
         {
             string msg = System.Text.Encoding.UTF8.GetString(message);
-            Debug.Log("Received: " + msg);
-            StoreMessage(msg);
-            if (topic == "M2MQTT_Unity/test")
-            {
-                if (autoTest)
-                {
-                    autoTest = false;
-                    Disconnect();
-                }
-            }
+            Debug.Log("Received: " + msg + ", topic: " + topic);
+            receivedMessages.Add(new Message(topic, msg));
         }
 
-        private void StoreMessage(string eventMsg)
-        {
-            eventMessages.Add(eventMsg);
-        }
-
-        private void ProcessMessage(string msg)
+        private void ProcessMessage(Message msg)
         {
             DashboardController.ProcessMessage(msg);
-            Debug.Log("Received: " + msg);
         }
 
         protected override void Update()
         {
             base.Update(); // call ProcessMqttEvents()
 
-            if (eventMessages.Count > 0)
+            if (receivedMessages.Count > 0)
             {
-                foreach (string msg in eventMessages)
+                foreach (Message msg in receivedMessages)
                 {
                     ProcessMessage(msg);
                 }
-                eventMessages.Clear();
+                receivedMessages.Clear();
             }
             
-            if (PublishTasks.Count > 0)
+            if (ToBePublished.Count > 0)
             {
-                foreach (PublishTask publishTask in PublishTasks)
+                foreach (Message message in ToBePublished)
                 {
-                    Publish(publishTask);
+                    Publish(message);
                 }
-                PublishTasks.Clear();
+                ToBePublished.Clear();
             }
         }
 
@@ -185,19 +167,15 @@ namespace TS1989
 
         private void OnValidate()
         {
-            if (autoTest)
-            {
-                autoConnect = true;
-            }
         }
     }
 
-    public struct PublishTask
+    public struct Message
     {
         public string topic;
         public string message;
         
-        public PublishTask(string topic, string message)
+        public Message(string topic, string message)
         {
             this.topic = topic;
             this.message = message;

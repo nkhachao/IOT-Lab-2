@@ -35,7 +35,7 @@ namespace TS1989
             var ledStatus = status ? "ON" : "OFF";
             var message = "{\"device\":\"LED\",\"status\":\"" + ledStatus + "\"}";
 
-            ConnectionController.PublishTasks.Add(new PublishTask("/bkiot/1852346/led", message));
+            ConnectionController.ToBePublished.Add(new Message("/bkiot/1852346/led", message));
         }
         
         public void PublishPumpStatus(bool status)
@@ -44,10 +44,10 @@ namespace TS1989
             var pumpStatus = status ? "ON" : "OFF";
             var message = "{\"device\":\"PUMP\",\"status\":\"" + pumpStatus + "\"}";
 
-            ConnectionController.PublishTasks.Add(new PublishTask("/bkiot/1852346/pump", message));
+            ConnectionController.ToBePublished.Add(new Message("/bkiot/1852346/pump", message));
         }
 
-        public static void ProcessMessage(string message)
+        public static void ProcessMessage(Message message)
         {
             LastUpdate = DateTime.Now.ToString("HH:mm:ss");
         }

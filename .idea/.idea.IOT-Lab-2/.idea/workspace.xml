@@ -4,6 +4,7 @@
     <list default="true" id="8219a5fc-d5d8-49ff-a04f-fcf3024a9f37" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.IOT-Lab-2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.IOT-Lab-2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ConnectionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ConnectionController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DashboardController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DashboardController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +70,7 @@
       <workItem from="1650203774287" duration="10000" />
       <workItem from="1650204326435" duration="365000" />
       <workItem from="1650204700832" duration="14000" />
-      <workItem from="1650204741451" duration="31546000" />
+      <workItem from="1650204741451" duration="32902000" />
     </task>
     <servers />
   </component>
