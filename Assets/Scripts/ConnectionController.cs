@@ -23,7 +23,6 @@ namespace TS1989
 
         private List<string> eventMessages = new List<string>();
         public static List<PublishTask> PublishTasks = new List<PublishTask>();
-        private bool updateUI = false;
 
         public void TestPublish()
         {
@@ -38,28 +37,19 @@ namespace TS1989
             Debug.Log("PUBLISHED: " + task.topic + ", " + task.message);
         }
 
-        public void UpdateBrokerAddress(string _)
+        public void UpdateBrokerAddress(string address)
         {
-            if (addressInputField && !updateUI)
-            {
-                this.brokerAddress = addressInputField.text;
-            }
+            this.brokerAddress = address;
         }
         
-        public void UpdateUsername(string _)
+        public void UpdateUsername(string username)
         {
-            if (usernameInputField && !updateUI)
-            {
-                this.mqttUserName = usernameInputField.text;
-            }
+            this.mqttUserName = username;
         }
         
-        public void UpdatePassword(string _)
+        public void UpdatePassword(string password)
         {
-            if (passwordInputField && !updateUI)
-            {
-                this.mqttPassword = passwordInputField.text;
-            }
+            this.mqttPassword = password;
         }
 
         public new void Connect()
@@ -129,40 +119,14 @@ namespace TS1989
             Debug.Log("Disconnected.");
         }
 
-        private void UpdateUI()
-        {
-            if (client == null)
-            {
-                if (connectButton != null)
-                {
-                    connectButton.interactable = true;
-                }
-            }
-            else
-            {
-                if (connectButton != null)
-                {
-                    connectButton.interactable = !client.IsConnected;
-                }
-            }
-
-            addressInputField.interactable = connectButton.interactable;
-            addressInputField.text = brokerAddress;
-
-            usernameInputField.interactable = connectButton.interactable;
-            usernameInputField.text = mqttUserName;
-            
-            passwordInputField.interactable = connectButton.interactable;
-            passwordInputField.text = mqttPassword;
-            
-            updateUI = false;
-        }
-
         protected override void Start()
         {
             Debug.Log("Ready.");
-            updateUI = true;
             base.Start();
+
+            addressInputField.text = brokerAddress;
+            usernameInputField.text = mqttUserName;
+            passwordInputField.text = mqttPassword;
         }
 
         protected override void DecodeMessage(string topic, byte[] message)
@@ -211,11 +175,6 @@ namespace TS1989
                     Publish(publishTask);
                 }
                 PublishTasks.Clear();
-            }
-            
-            if (updateUI)
-            {
-                UpdateUI();
             }
         }
 
