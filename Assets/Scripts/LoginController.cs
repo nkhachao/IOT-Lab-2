@@ -84,9 +84,18 @@ namespace TS1989
         
         protected override void OnConnectionFailed(string errorMessage)
         {
+            ErrorController.Title = "Connection Failed";
             ErrorController.ErrorMessage = errorMessage;
-            Navigation.LoadScene(SceneNames.ConnectionError);
+            Navigation.LoadScene(SceneNames.Error);
             Debug.Log("CONNECTION FAILED! " + errorMessage);
+        }
+        
+        protected override void OnConnectionLost()
+        {
+            ErrorController.Title = "Connection Lost";
+            ErrorController.ErrorMessage = "Unexpectedly lost connection to " + brokerAddress;
+            Navigation.LoadScene(SceneNames.Error);
+            Debug.Log("CONNECTION LOST!");
         }
 
         protected override void SubscribeTopics()
@@ -102,11 +111,6 @@ namespace TS1989
         protected override void OnDisconnected()
         {
             Debug.Log("Disconnected.");
-        }
-
-        protected override void OnConnectionLost()
-        {
-            Debug.Log("CONNECTION LOST!");
         }
 
         private void UpdateUI()
@@ -167,6 +171,7 @@ namespace TS1989
 
         private void ProcessMessage(string msg)
         {
+            DashboardController.LastUpdate = DateTime.Now.ToString("HH:mm:ss");
             Debug.Log("Received: " + msg);
         }
 

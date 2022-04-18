@@ -10,15 +10,19 @@ namespace TS1989
     {
         public static string ErrorMessage;
         public TMP_Text errorMessage;
+        
+        public static string Title;
+        public TMP_Text title;
         // Start is called before the first frame update
         void Start()
         {
             errorMessage.text = ErrorMessage;
+            title.text = Title;
         }
 
         public void Exit()
         {
-            Navigation.UnloadSceneAsync("ConnectionError");
+            Navigation.UnloadSceneAsync(SceneNames.Error);
         }
 
         // Update is called once per frame

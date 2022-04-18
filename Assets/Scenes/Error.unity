@@ -875,6 +875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   errorMessage: {fileID: 569775674}
+  title: {fileID: 446189557}
 --- !u!4 &1539442112
 Transform:
   m_ObjectHideFlags: 0

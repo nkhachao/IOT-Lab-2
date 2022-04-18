@@ -1,16 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 namespace TS1989
 {
-    public class TimeController : MonoBehaviour
+    public class DashboardController : MonoBehaviour
     {
-        public TMP_Text text;
-
+        public TMP_Text lastUpdate;
+        public static string LastUpdate = "";
         // Start is called before the first frame update
         void Start()
         {
@@ -20,8 +18,7 @@ namespace TS1989
         // Update is called once per frame
         void Update()
         {
-            text.text = DateTime.Now.ToString("HH:mm:ss");
+            lastUpdate.text = "Last update: " + LastUpdate;
         }
     }
 }
-

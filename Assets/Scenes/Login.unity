@@ -975,14 +975,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b77736cb37646dd80009fb1ea3727b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brokerAddress: x
+  brokerAddress: mqttserver.tk
   brokerPort: 1883
   isEncrypted: 0
   connectionDelay: 500
   timeoutOnConnection: 30000
   autoConnect: 0
-  mqttUserName: 
-  mqttPassword: 
+  mqttUserName: bkiot
+  mqttPassword: 12345678
   autoTest: 0
   addressInputField: {fileID: 854218298}
   usernameInputField: {fileID: 740371022}
