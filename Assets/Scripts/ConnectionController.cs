@@ -11,7 +11,7 @@ using TMPro;
 
 namespace TS1989
 {
-    public class LoginController : M2MqttUnityClient
+    public class ConnectionController : M2MqttUnityClient
     {
         [Tooltip("Set this to true to perform a testing cycle automatically on startup")]
         public bool autoTest = false;
@@ -171,7 +171,7 @@ namespace TS1989
 
         private void ProcessMessage(string msg)
         {
-            DashboardController.LastUpdate = DateTime.Now.ToString("HH:mm:ss");
+            DashboardController.ProcessMessage(msg);
             Debug.Log("Received: " + msg);
         }
 
