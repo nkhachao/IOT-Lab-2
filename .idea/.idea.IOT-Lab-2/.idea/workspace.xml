@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8219a5fc-d5d8-49ff-a04f-fcf3024a9f37" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.IOT-Lab-2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.IOT-Lab-2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Login.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Login.unity" afterDir="false" />
-    </list>
+    <list default="true" id="8219a5fc-d5d8-49ff-a04f-fcf3024a9f37" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +65,7 @@
       <workItem from="1650203774287" duration="10000" />
       <workItem from="1650204326435" duration="365000" />
       <workItem from="1650204700832" duration="14000" />
-      <workItem from="1650204741451" duration="25005000" />
+      <workItem from="1650204741451" duration="25129000" />
     </task>
     <servers />
   </component>
