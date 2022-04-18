@@ -19,15 +19,32 @@ namespace TS1989
         private static string Humidity = "0";
         
         public Toggle ledToggle;
-        private static bool IsLedOn = false;
+        private static bool? IsLedOn;
         
         public Toggle pumpToggle;
-        private static bool IsPumpOn = false;
+        private static bool? IsPumpOn;
         
         // Start is called before the first frame update
         void Start()
         {
         
+        }
+        
+        public void PublishLedStatus(bool status)
+        {
+            var ledStatus = status ? "ON" : "OFF";
+            var message = "{\"device\":\"LED\",\"status\":\"" + ledStatus + "\"}";
+
+            ConnectionController.PublishTasks.Add(new PublishTask("/bkiot/1852346/led", message));
+        }
+        
+        public void PublishPumpStatus(bool status)
+        {
+            IsPumpOn = status;
+            var pumpStatus = status ? "ON" : "OFF";
+            var message = "{\"device\":\"PUMP\",\"status\":\"" + pumpStatus + "\"}";
+
+            ConnectionController.PublishTasks.Add(new PublishTask("/bkiot/1852346/pump", message));
         }
 
         public static void ProcessMessage(string message)
@@ -41,8 +58,18 @@ namespace TS1989
             lastUpdate.text = "Last update: " + LastUpdate;
             temperature.text = Temperature + "°C";
             humidity.text = Humidity + "%";
-            ledToggle.isOn = IsLedOn;
-            pumpToggle.isOn = IsPumpOn;
+
+            if (IsLedOn != null)
+            {
+                ledToggle.isOn = IsLedOn.Value;
+                IsLedOn = null;
+            }
+
+            if (IsPumpOn != null)
+            {
+                pumpToggle.isOn = IsPumpOn.Value;
+                IsPumpOn = null;
+            }
         }
     }
 }

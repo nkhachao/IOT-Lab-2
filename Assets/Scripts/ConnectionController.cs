@@ -22,6 +22,7 @@ namespace TS1989
         public Button connectButton;
 
         private List<string> eventMessages = new List<string>();
+        public static List<PublishTask> PublishTasks = new List<PublishTask>();
         private bool updateUI = false;
 
         public void TestPublish()
@@ -29,7 +30,14 @@ namespace TS1989
             client.Publish("M2MQTT_Unity/test", System.Text.Encoding.UTF8.GetBytes("Test message"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             Debug.Log("Test message published");
         }
-        
+
+        public void Publish(PublishTask task)
+        {
+            client.Publish(task.topic, System.Text.Encoding.UTF8.GetBytes(task.message),
+                MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            Debug.Log("PUBLISHED: " + task.topic + ", " + task.message);
+        }
+
         public void UpdateBrokerAddress(string _)
         {
             if (addressInputField && !updateUI)
@@ -187,6 +195,16 @@ namespace TS1989
                 }
                 eventMessages.Clear();
             }
+            
+            if (PublishTasks.Count > 0)
+            {
+                foreach (PublishTask publishTask in PublishTasks)
+                {
+                    Publish(publishTask);
+                }
+                PublishTasks.Clear();
+            }
+            
             if (updateUI)
             {
                 UpdateUI();
@@ -204,6 +222,18 @@ namespace TS1989
             {
                 autoConnect = true;
             }
+        }
+    }
+
+    public struct PublishTask
+    {
+        public string topic;
+        public string message;
+        
+        public PublishTask(string topic, string message)
+        {
+            this.topic = topic;
+            this.message = message;
         }
     }
 }

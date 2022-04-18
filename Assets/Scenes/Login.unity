@@ -975,7 +975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b77736cb37646dd80009fb1ea3727b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brokerAddress: mqttserver.tk
+  brokerAddress: test.mosquitto.org
   brokerPort: 1883
   isEncrypted: 0
   connectionDelay: 500
@@ -2091,8 +2091,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4043309056
-  m_fontColor: {r: 0, g: 0, b: 0, a: 0.94509804}
+    rgba: 4194304000
+  m_fontColor: {r: 0, g: 0, b: 0, a: 0.98039216}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
