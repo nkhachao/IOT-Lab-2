@@ -29,19 +29,36 @@ namespace TS1989
             client.Publish("M2MQTT_Unity/test", System.Text.Encoding.UTF8.GetBytes("Test message"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             Debug.Log("Test message published");
         }
-
-        public void SetBrokerAddress(string brokerAddress)
+        
+        public void UpdateBrokerAddress(string _)
         {
             if (addressInputField && !updateUI)
             {
-                this.brokerAddress = brokerAddress;
+                this.brokerAddress = addressInputField.text;
+            }
+        }
+        
+        public void UpdateUsername(string _)
+        {
+            if (usernameInputField && !updateUI)
+            {
+                this.mqttUserName = usernameInputField.text;
+            }
+        }
+        
+        public void UpdatePassword(string _)
+        {
+            if (passwordInputField && !updateUI)
+            {
+                this.mqttPassword = passwordInputField.text;
             }
         }
 
         public new void Connect()
         {
             HourglassController.Status =
-                "Connecting to broker on " + brokerAddress + ":" + brokerPort.ToString() + "...\n";
+                "Connecting to broker on " + brokerAddress + ":" + brokerPort.ToString() + "\n"
+                + "Username: " + mqttUserName + "\nPassword: " + new string('*', mqttPassword.Length);
             Navigation.LoadScene(SceneNames.Connecting);
             base.Connect();
         }
@@ -49,13 +66,15 @@ namespace TS1989
         protected override void OnConnecting()
         {
             base.OnConnecting();
-            Debug.Log("Connecting to broker on " + brokerAddress + ":" + brokerPort.ToString() + "...\n");
+            Debug.Log("Connecting to broker on " + brokerAddress + ":" + brokerPort.ToString() + ", "
+                      + "Username: " + mqttUserName + ", Password: " + mqttPassword);
         }
 
         protected override void OnConnected()
         {
             base.OnConnected();
             Debug.Log("Connected to broker on " + brokerAddress + "\n");
+            Navigation.LoadScene(SceneNames.Dashboard);
 
             if (autoTest)
             {

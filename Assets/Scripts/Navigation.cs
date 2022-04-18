@@ -44,5 +44,6 @@ namespace TS1989
         public const string Login = "Login";
         public const string ConnectionError = "ConnectionError";
         public const string Connecting = "Hourglass";
+        public const string Dashboard = "Dashboard";
     }
 }
