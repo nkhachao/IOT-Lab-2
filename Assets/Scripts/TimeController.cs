@@ -1,30 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 
 namespace TS1989
 {
-    public class ErrorController : MonoBehaviour
+    public class TimeController : MonoBehaviour
     {
-        public static string ErrorMessage;
-        public TMP_Text errorMessage;
+        public TMP_Text text;
+
         // Start is called before the first frame update
         void Start()
         {
-            errorMessage.text = ErrorMessage;
-        }
-
-        public void Exit()
-        {
-            Navigation.UnloadSceneAsync("ConnectionError");
+        
         }
 
         // Update is called once per frame
         void Update()
         {
-        
+            text.text = System.DateTime.Now.ToString("HH:mm:ss");
         }
     }
 }
+

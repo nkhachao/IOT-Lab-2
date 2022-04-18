@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using M2MqttUnity;
@@ -39,6 +38,14 @@ namespace TS1989
             }
         }
 
+        public new void Connect()
+        {
+            HourglassController.Status =
+                "Connecting to broker on " + brokerAddress + ":" + brokerPort.ToString() + "...\n";
+            Navigation.LoadScene(SceneNames.Connecting);
+            base.Connect();
+        }
+
         protected override void OnConnecting()
         {
             base.OnConnecting();
@@ -55,6 +62,13 @@ namespace TS1989
                 TestPublish();
             }
         }
+        
+        protected override void OnConnectionFailed(string errorMessage)
+        {
+            ErrorController.ErrorMessage = errorMessage;
+            Navigation.LoadScene(SceneNames.ConnectionError);
+            Debug.Log("CONNECTION FAILED! " + errorMessage);
+        }
 
         protected override void SubscribeTopics()
         {
@@ -64,13 +78,6 @@ namespace TS1989
         protected override void UnsubscribeTopics()
         {
             client.Unsubscribe(new string[] { "M2MQTT_Unity/test" });
-        }
-
-        protected override void OnConnectionFailed(string errorMessage)
-        {
-            ErrorController.ErrorMessage = errorMessage;
-            SceneManager.LoadScene(SceneNames.ConnectionError, LoadSceneMode.Additive);
-            Debug.Log("CONNECTION FAILED! " + errorMessage);
         }
 
         protected override void OnDisconnected()
